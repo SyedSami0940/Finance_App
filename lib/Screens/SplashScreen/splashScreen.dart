@@ -1,87 +1,78 @@
+import 'package:finance_application/Screens/Main_Dashboard/dashboard_screen.dart';
+import 'package:finance_application/Screens/login/login_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'dart:async';
 
-import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
   @override
-  _SplashScreenState createState() => _SplashScreenState();
+  State<SplashScreen> createState() => _SplashScreenState();
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  double _offsetX = -250; // Start position (left side)
-  double _rotation = 0; // Initial rotation
-  double _textOpacity = 0.0; // Initially text hidden
+  double _scale = 0.5;
 
   @override
   void initState() {
     super.initState();
 
-    Future.delayed(const Duration(milliseconds: 100), () {
+    Future.delayed(const Duration(milliseconds: 300), () {
       setState(() {
-        _offsetX = 0;
-        _rotation = 1;
+        _scale = 1.0;
       });
     });
 
-    // Show text after logo reaches center
-    Future.delayed(const Duration(seconds: 1), () {
-      setState(() {
-        _textOpacity = 1.0;
-      });
-    });
-
-    Future.delayed(const Duration(seconds: 3), () {
-      //Get.to(LoginScreenView());
+    Future.delayed(const Duration(seconds: 5), () {
+      Get.to(() => LoginScreenView());
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black87,
-      body: Stack(
-        children: [
-          // Background Image
-          Positioned.fill(
-            child: Image.asset(
-              "assets/image/bg4.png", // Change to your image path
-              fit: BoxFit.cover,
-            ),
-          ),
-          Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                AnimatedContainer(
-                  duration: const Duration(seconds: 1),
-                  curve: Curves.easeInOut,
-                  transform: Matrix4.translationValues(_offsetX, 0, 0),
-                  child: AnimatedRotation(
-                    duration: const Duration(seconds: 1),
-                    curve: Curves.easeInOut,
-                    turns: _rotation,
-                    child: Image.asset('assets/image/brokerlogo.png',
-                        width: 120, height: 120),
+      backgroundColor: Colors.white,
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TweenAnimationBuilder(
+              tween: Tween<double>(begin: 0.1, end: _scale),
+              duration: const Duration(seconds: 1),
+              curve: Curves.easeOutBack,
+              builder: (context, value, child) {
+                return Transform.scale(
+                  scale: value,
+                  child: Image.asset(
+                    'assets/images/splash1.gif',
+                    width: 150,
+                    height: 150,
                   ),
-                ),
-                AnimatedOpacity(
-                  duration: const Duration(seconds: 1),
-                  opacity: _textOpacity,
-                  child: const Text(
-                    "Demo Application",
-                    style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white),
-                  ),
-                ),
-              ],
+                );
+              },
             ),
-          ),
-        ],
+            const SizedBox(height: 5),
+            const Text(
+              "Finance App",
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+            ),
+            const SizedBox(height: 10),
+            const Text(
+              "powered by RATEXH",
+              style: TextStyle(
+                fontSize: 14,
+                color: Colors.grey,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

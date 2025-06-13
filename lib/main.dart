@@ -8,13 +8,15 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark().copyWith(
         scaffoldBackgroundColor:
-            Color.fromRGBO(0, 0, 0, 1), // Background black rahega
+            const Color.fromRGBO(0, 0, 0, 1), // Background black rahega
         appBarTheme: const AppBarTheme(
           backgroundColor: Colors.transparent, // Fully transparent
           elevation: 0, // No shadow
@@ -26,7 +28,7 @@ class MyApp extends StatelessWidget {
           bodyLarge: TextStyle(color: Colors.white),
         ),
       ),
-      home: SplashScreen(),
+      home: const SplashScreen(),
     );
   }
 }
